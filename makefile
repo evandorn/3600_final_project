@@ -5,8 +5,11 @@ CFLAGS=-Wall -Wextra
 SRC=client.c server.c
 OBJ=$(addprefix src/, $(SRC:.c=.o))
 
-all: libmyalloc.so
+all: server client
 
+server: server.o 
+
+client: client.o
 
 clean:
 	rm -f src/*.o
