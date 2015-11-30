@@ -94,8 +94,8 @@ void *client_handler(void *arg) {
     }
     
     client_count--;
-    printf("%s is now disconnected\n", ip_address);
-    printf("%d users are now currently active.\n", client_count);
+    fprintf(stdout, "%s is now disconnected\n", ip_address);
+    fprintf(stdout, "%d users are now currently active.\n", client_count);
     pthread_mutex_unlock(&mutex);
     close(client_socket);
     
@@ -107,9 +107,9 @@ void *client_handler(void *arg) {
  ***********************************************/
 int main(int argc, const char *argv[]) {
 
-    int server_socket, client_socket;
+    int server_socket, local_socket;                                    // local socket is the connect client socket
     struct sockaddr_in server_address, client_address;
-    int client_address_size;
+    unsigned int client_address_size;
     pthread_t thread_id;
     packet sent_packet;
     
@@ -135,9 +135,22 @@ int main(int argc, const char *argv[]) {
     
     while(1) {
         client_address_size = sizeof(client_address);
+        local_socket = accept(server_socket, (struct sockaddr*)&client_address, &client_address_size);
         
+        pthread_mutex_lock(&mutex);
+        client_connections[client_count++] = local_socket;
+        pthread_mutex_unlock(&mutex);
+        
+        sent_packet.client_socket = local_socket;                   // set equal to client socket in struct
+        sprintf(sent_packet.ip_address, "%s", inet_ntoa(client_address.sin_addr));
+        
+        pthread_create(&thread_id, NULL, client_handler, (void *)&sent_packet);
+        pthread_detach(thread_id);
+        
+        fprintf(stdout, "Client connected from IP address: %s \n", inet_ntoa(client_address.sin_addr));
+        fprintf(stdout, "%d users are now currently active.\n", client_count);
     }
-
-    
+  // call to close() never gets executed
+  // close(server_socket);
     return 0;
 }
