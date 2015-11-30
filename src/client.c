@@ -12,7 +12,6 @@
 //
 //
 
-
 // TODOS - Set up basic client-server connection for message passing
 
 #include <stdio.h>
