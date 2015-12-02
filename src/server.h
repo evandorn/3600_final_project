@@ -1,23 +1,16 @@
 //
 //  server.h
-//  cpsc_3600_final_project
+//  3600-Final-Progject
 //
-//  Created by Evan Dorn on 11/24/15.
-//  Copyright © 2015 Evan Dorn. All rights reserved.
+//  Created by Evan Dorn on 12/2/15.
+//  Copyright © 2015 evandorn. All rights reserved.
 //
 
 #ifndef server_h
 #define server_h
 
-#define BUFFER 1024
-#define MAX_CONNECTIONS 256             // Arbitrary number of maximum client connections
-#define SERVER_PORT "6000"
-
-// Function Prototypes
-void clear_newline(char *str);
-void *send_message(char *message, int message_length);         // send thread main
-void error_handler(char *message);                             // simple error handling function
-void *client_handler(void *arg);                               // client handling function
+#define BUFFER 100
+#define MAX_CLIENTS 256
 
 // Structs
 struct data_packet {
@@ -25,6 +18,11 @@ struct data_packet {
     char ip_address[BUFFER];
 };
 
-typedef struct data_packet packet;                          // data being passed around between client & server
+typedef struct data_packet packet;
+
+// function prototypes
+void *client_handler(void *arg);
+void send_message(char *message, int len);
+void error_handler(char *message);
 
 #endif /* server_h */

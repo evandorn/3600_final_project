@@ -1,18 +1,16 @@
 //
 //  client.h
-//  cpsc_3600_final_project
+//  3600-Final-Progject
 //
-//  Created by Evan Dorn on 11/24/15.
-//  Copyright © 2015 Evan Dorn. All rights reserved.
+//  Created by Evan Dorn on 12/2/15.
+//  Copyright © 2015 evandorn. All rights reserved.
 //
 
 #ifndef client_h
 #define client_h
 
-#define BUFFER 1024
-
-#define SERVER_PORT "6000"
-#define CLIENT_PORT "6001"
+#define BUFFER 100
+#define USER 20
 
 // function prototypes
 void clear_newline(char *str);
